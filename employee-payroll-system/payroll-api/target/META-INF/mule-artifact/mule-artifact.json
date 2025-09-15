@@ -1,0 +1,36 @@
+{
+  "configs": [
+    "global.xml",
+    "payroll-transactions.xml",
+    "payroll-by-month.xml",
+    "employee.xml",
+    "payroll-api.xml"
+  ],
+  "secureProperties": [],
+  "supportedJavaVersions": [],
+  "redeploymentEnabled": true,
+  "name": "com.mycompany:payroll-api:1.0.0-SNAPSHOT",
+  "minMuleVersion": "4.9.0",
+  "requiredProduct": "MULE_EE",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "exportedPackages": [],
+      "exportedResources": [
+        "application-types.xml",
+        "config/dev.yaml",
+        "config/qa.yaml",
+        "employee.xml",
+        "global.xml",
+        "log4j2.xml",
+        "payroll-api.xml",
+        "payroll-by-month.xml",
+        "payroll-transactions.xml"
+      ]
+    }
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  }
+}

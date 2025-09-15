@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="payroll-transactionsFlow" doc:id="e797c16a-6b8c-475d-ace3-f4c99623ff18" >
+		<foreach doc:name="For Each" doc:id="88447f05-d38b-4a88-a796-7cc210b0153c" >
+			<db:insert doc:name="Insert" doc:id="25d71c1a-1f22-4983-8809-5f34ea2a4064" config-ref="Database_Config">
+			<db:sql><![CDATA[INSERT INTO payroll_transactions (emp_id, gross_salary, tax_amount, net_salary, month) VALUES (:emp_id, :gross_salary, :tax_amount, :net_salary, :month)
+
+]]></db:sql>
+			<db:input-parameters><![CDATA[#[{
+	emp_id: payload.emp_id,
+	gross_salary: payload.gross_salary,
+	tax_amount: payload.tax_amount,
+	net_salary: payload.net_salary,
+	month: payload.month
+}]]]></db:input-parameters>
+		</db:insert>
+		</foreach>
+		<ee:transform doc:name="Transform Message" doc:id="9787b69c-07a5-4777-b59e-0423f78d14ab">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  status: "success",
+  count: sizeOf(payload),
+  transactions: payload
+} ]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	
+</mule>
